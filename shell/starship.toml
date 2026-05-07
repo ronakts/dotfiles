@@ -16,20 +16,24 @@ disabled = true
 [git_branch]
 symbol = "󰘬 "
 
-# Replace the default ASCII git-status symbols ($, +, ?, !, etc.) with
-# Nerd Font glyphs. Requires a full Nerd Font (e.g. JetBrainsMono Nerd Font).
-# ahead/behind keep the unicode arrows since they also carry counts.
+# Git status: single-letter codes (matching `git status --porcelain` style)
+# with per-symbol colors so multiple flags are easy to parse at a glance.
+#   M modified (yellow)   A staged (green)     ? untracked (red)
+#   S stashed (blue)      D deleted (red)      R renamed (cyan)
+#   ! conflicted (bold red)
+# ahead/behind/diverged keep arrows + count, also colored.
 [git_status]
-stashed     = ""
-staged      = ""
-untracked   = ""
-modified    = ""
-deleted     = ""
-conflicted  = ""
-renamed     = ""
-ahead       = "⇡${count}"
-behind      = "⇣${count}"
-diverged    = "⇕⇡${ahead_count}⇣${behind_count}"
+modified    = "[M](yellow)"
+staged      = "[A](bold green)"
+untracked   = "[?](bold red)"
+stashed     = "[S](blue)"
+deleted     = "[D](red)"
+renamed     = "[R](cyan)"
+conflicted  = "[!](bold red)"
+ahead       = "[⇡${count}](bold green)"
+behind      = "[⇣${count}](bold yellow)"
+diverged    = "[⇕⇡${ahead_count}⇣${behind_count}](bold red)"
+
 
 # ---- language version segments ----
 # (the info is two-finger checks away when you actually need it:
