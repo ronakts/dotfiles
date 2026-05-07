@@ -30,6 +30,14 @@ disabled = true
 disabled = true
 [package]
 disabled = true
+[pixi]
+disabled = true
+[direnv]
+disabled = true
+[shell]
+disabled = true
+[time]
+disabled = true
 
 # ---- cloud / infra context ----
 # (starship pulls from your shell env; the shell env is already noisy enough)
