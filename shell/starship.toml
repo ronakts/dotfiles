@@ -9,10 +9,6 @@ $directory\
 $git_branch\
 $git_status\
 $git_state\
-$python\
-$nodejs\
-$golang\
-$rust\
 $cmd_duration\
 $line_break\
 $character"""
@@ -54,24 +50,30 @@ min_time = 2_000
 format = "[took $duration]($style) "
 style = "yellow"
 
+# Language / tool version segments are noisy in the prompt — disabled by
+# default. Re-enable individually if you ever want them back.
 [python]
-symbol = " "
-
+disabled = true
 [nodejs]
-symbol = " "
-
+disabled = true
 [golang]
-symbol = " "
-
+disabled = true
 [rust]
-symbol = " "
+disabled = true
+[ruby]
+disabled = true
+[java]
+disabled = true
+[lua]
+disabled = true
+[package]
+disabled = true
 
-# Disable noisy / per-tool segments. Re-enable individually if you want them.
+# Cloud / infra segments — also off by default. Use the CLI when you need
+# to know your AWS profile / kube context.
 [aws]
 disabled = true
 [gcloud]
 disabled = true
 [kubernetes]
-disabled = true
-[package]
 disabled = true
