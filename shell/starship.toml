@@ -53,6 +53,10 @@ disabled = true
 disabled = true
 [nix_shell]
 disabled = true
+# The `container` module is the source of "⬢ [Docker]" — fires whenever
+# the prompt is running inside a container (every Coder workspace).
+[container]
+disabled = true
 
 # Everything else (directory, git_branch, git_status, git_state, cmd_duration,
 # character) keeps stock starship styling.
