@@ -47,6 +47,18 @@
 [branch]
 	sort = -committerdate
 
+[tag]
+	sort = version:refname
+
+[column]
+	ui = auto
+
+[help]
+	autocorrect = prompt
+
+[log]
+	date = iso
+
 [alias]
 	; --- keystroke savers (carried over from existing ~/.gitconfig) ---
 	cm   = checkout main
@@ -93,3 +105,25 @@
 
 	; tree of recent branches sorted by activity
 	recent   = for-each-ref --count=20 --sort=-committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'
+
+	; --- workflow helpers ---
+	; autosquash workflow: `git fixup` after staging, then `git rebase -i`
+	; collapses the fixup! into the original commit (rebase.autoSquash=true
+	; means the -i editor opens with the right thing pre-selected).
+	fixup    = commit --fixup HEAD
+	amend    = commit --amend --no-edit
+
+	; list all configured aliases. POSIX-portable; no fancy alignment so we
+	; don't depend on `column` or shell-specific tab handling.
+	; (Double-quoted because the value contains `;`, which gitconfig
+	;  otherwise treats as the start of a comment.)
+	aliases  = "!git config --list | grep '^alias\\.' | sed 's/^alias\\.//; s/=/ = /' | sort"
+
+	; conflict resolution shortcuts
+	ours     = checkout --ours --
+	theirs   = checkout --theirs --
+
+	; nuke: hard reset + remove untracked/ignored. Destructive — no
+	; recovery. Useful when a build state is so broken you just want to
+	; start over.
+	nuke     = !git clean -ffdx && git reset --hard

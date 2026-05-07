@@ -15,15 +15,44 @@ set history=1000
 set undolevels=1000
 set updatetime=300
 set ttimeoutlen=10            " quicker reaction to <Esc>
+set ttyfast                   " assume fast terminal — smoother redraw
+set lazyredraw                " skip redraw during macros — faster
+set backspace=indent,eol,start
+set autoread                  " pick up external changes to open files
+set showcmd                   " show partial command in the last line
+set showmatch                 " briefly highlight matching bracket on insert
 
 set mouse=a                   " mouse in all modes
 set clipboard=unnamed         " yank/paste through system clipboard
-set autoread                  " pick up external changes to open files
+
+" splits open in the natural reading direction
+set splitright
+set splitbelow
+
+" tab completion menu (the *good* one)
+set wildmenu
+set wildmode=longest:full,full
+set wildignorecase
 
 " no swap / backup noise
 set nobackup
 set nowritebackup
 set noswapfile
+
+" persistent undo across vim sessions
+if has('persistent_undo')
+    let s:undodir = expand('~/.vim/undo')
+    if !isdirectory(s:undodir)
+        call mkdir(s:undodir, 'p', 0700)
+    endif
+    let &undodir = s:undodir
+    set undofile
+endif
+
+" true color in terminal (paired with tmux true-color override)
+if has('termguicolors')
+    set termguicolors
+endif
 
 " line numbering
 set number
@@ -48,6 +77,26 @@ let mapleader=","
 nnoremap <silent> <leader><space> :nohlsearch<CR>
 nnoremap <leader>w :w<CR>
 nnoremap <leader>q :q<CR>
+
+" yank to end of line — consistent with D and C (Y default is yy, almost
+" never what you want)
+nnoremap Y y$
+
+" navigate by display lines, not file lines (huge with wrapped text)
+nnoremap j gj
+nnoremap k gk
+
+" disable Ex mode (it's a footgun, nobody types :visual to escape it)
+nnoremap Q <Nop>
+
+" restore cursor to last position when reopening a file
+augroup VimrcRestoreCursor
+    autocmd!
+    autocmd BufReadPost *
+        \ if line("'\"") > 1 && line("'\"") <= line("$") |
+        \     execute "normal! g`\"" |
+        \ endif
+augroup END
 
 " ---- plugins (vim-plug) ----
 call plug#begin('~/.vim/plugged')
