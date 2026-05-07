@@ -1,79 +1,10 @@
 # Starship config — https://starship.rs/config
 #
-# Default style: directory + git branch + git status + (per-language
-# version when in a project) + (command duration if slow) + prompt char.
-# Two-line prompt so commands have full width.
-
-format = """
-$directory\
-$git_branch\
-$git_status\
-$git_state\
-$cmd_duration\
-$line_break\
-$character"""
-
-add_newline = true
-command_timeout = 1000
-
-[character]
-success_symbol = "[➜](bold green)"
-error_symbol = "[✗](bold red)"
-
-[directory]
-truncation_length = 4
-truncate_to_repo = true
-style = "bold cyan"
-
-[git_branch]
-symbol = " "
-style = "bold purple"
-
-[git_status]
-ahead = "⇡${count}"
-diverged = "⇕⇡${ahead_count}⇣${behind_count}"
-behind = "⇣${count}"
-conflicted = "✖"
-deleted = "✘"
-modified = "!"
-renamed = "»"
-staged = "+"
-untracked = "?"
-stashed = "≡"
-style = "bold yellow"
-
-[git_state]
-style = "bold yellow"
-
-[cmd_duration]
-min_time = 2_000
-format = "[took $duration]($style) "
-style = "yellow"
-
-# Language / tool version segments are noisy in the prompt — disabled by
-# default. Re-enable individually if you ever want them back.
-[python]
-disabled = true
-[nodejs]
-disabled = true
-[golang]
-disabled = true
-[rust]
-disabled = true
-[ruby]
-disabled = true
-[java]
-disabled = true
-[lua]
-disabled = true
-[package]
-disabled = true
-
-# Cloud / infra segments — also off by default. Use the CLI when you need
-# to know your AWS profile / kube context.
-[aws]
-disabled = true
-[gcloud]
-disabled = true
-[kubernetes]
-disabled = true
+# Intentionally minimal: rely on starship's stock defaults for layout,
+# colors, glyphs, git formatting, and the language version segments.
+# The defaults are well-tuned and match what you see on starship.rs.
+#
+# Tweak individual modules below as needed. Examples:
+#   - to hide the python version: [python] disabled = true
+#   - to truncate long paths: [directory] truncation_length = 3
+#   - to change prompt arrow: [character] success_symbol = "[➜](bold green)"
