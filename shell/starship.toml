@@ -1,10 +1,46 @@
 # Starship config — https://starship.rs/config
 #
-# Intentionally minimal: rely on starship's stock defaults for layout,
-# colors, glyphs, git formatting, and the language version segments.
-# The defaults are well-tuned and match what you see on starship.rs.
-#
-# Tweak individual modules below as needed. Examples:
-#   - to hide the python version: [python] disabled = true
-#   - to truncate long paths: [directory] truncation_length = 3
-#   - to change prompt arrow: [character] success_symbol = "[➜](bold green)"
+# Approach: keep starship's stock styling (colors, glyphs, git format,
+# layout) but disable modules that add noise without earning their space.
+# Re-enable any below by flipping `disabled = true` to `false`.
+
+# ---- identity / location: noisy in SSH/Coder, off ----
+[username]
+disabled = true
+
+[hostname]
+disabled = true
+
+# ---- language version segments ----
+# (the info is two-finger checks away when you actually need it:
+#  python --version, node --version, go version)
+[python]
+disabled = true
+[nodejs]
+disabled = true
+[golang]
+disabled = true
+[rust]
+disabled = true
+[ruby]
+disabled = true
+[java]
+disabled = true
+[lua]
+disabled = true
+[package]
+disabled = true
+
+# ---- cloud / infra context ----
+# (starship pulls from your shell env; the shell env is already noisy enough)
+[aws]
+disabled = true
+[gcloud]
+disabled = true
+[kubernetes]
+disabled = true
+[terraform]
+disabled = true
+
+# Everything else (directory, git_branch, git_status, git_state, cmd_duration,
+# character) keeps stock starship styling.
