@@ -1,0 +1,95 @@
+; Portable git config — included by ~/.gitconfig via [include]
+; Machine-local config (user.email, signing keys, URL rewrites, etc.)
+; should stay in ~/.gitconfig, not here.
+
+[core]
+	pager = less -+$LESS -FRX
+	fsmonitor = true
+	untrackedcache = true
+
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+	ui = auto
+
+[difftool]
+	prompt = false
+
+[diff]
+	renamelimit = 20000
+	tool = vimdiff
+	algorithm = histogram
+
+[merge]
+	prompt = false
+	tool = vimdiff
+	conflictstyle = zdiff3
+
+[fetch]
+	prune = true
+	pruneTags = true
+
+[init]
+	defaultBranch = main
+
+[push]
+	default = current
+	autoSetupRemote = true
+
+[rebase]
+	autoStash = true
+	autoSquash = true
+
+[rerere]
+	enabled = true
+
+[branch]
+	sort = -committerdate
+
+[alias]
+	; --- keystroke savers (carried over from existing ~/.gitconfig) ---
+	cm   = checkout main
+	co   = checkout
+	d    = diff
+	s    = status
+	t    = difftool
+
+	; less search pattern lets you press 'n' to jump to the next file
+	dd   = !git diff --color | less +'/^---'
+	l    = log --name-status
+	ll   = !git log --name-status --color | less +'/^commit'
+
+	; text and GUI diff of the last commit
+	last  = diff HEAD^ HEAD
+	lastt = difftool HEAD^ HEAD
+
+	; gitk-style decorated graph on the console
+	lol  = log --pretty --oneline --decorate --graph --all
+
+	; my commits
+	mine = !git log --no-merges --name-status --author=`git config user.email` "$@"
+
+	; run pre-commit hook without committing ("git pre-commit -h" prints usage)
+	pre-commit = !$(git rev-parse --git-dir)/hooks/pre-commit
+
+	; release-manifest shortlogs
+	sl   = shortlog --cherry-pick --no-merges --right-only --pretty=format:'%h, %ar, message: %s'
+	sll  = shortlog --cherry-pick --no-merges --right-only --pretty=format:'%ar, message: %s'
+
+	; my commits over the last week
+	weekly = !git log --no-merges --oneline --since='one week ago' --author=`git config user.email` "$@"
+
+	; --- additions (commonly useful, low-controversy) ---
+	br       = branch
+	ci       = commit
+	cia      = commit --amend
+	ds       = diff --staged
+	unstage  = reset HEAD --
+	undo     = reset --soft HEAD^
+	rh       = reset --hard
+	wip      = !git add -A && git commit -m 'wip'
+	root     = rev-parse --show-toplevel
+
+	; tree of recent branches sorted by activity
+	recent   = for-each-ref --count=20 --sort=-committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'
