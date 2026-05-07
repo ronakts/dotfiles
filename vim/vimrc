@@ -101,11 +101,62 @@ augroup END
 " ---- plugins (vim-plug) ----
 call plug#begin('~/.vim/plugged')
 
+" Look & feel
+Plug 'morhetz/gruvbox'
 Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+" Navigation & search
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
+" Git
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+
+" Editing
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
+Plug 'jiangmiao/auto-pairs'
+
+" Linting / fixing (works without an LSP setup; uses project tools like
+" ruff, eslint, shellcheck if installed).
+Plug 'dense-analysis/ale'
 
 call plug#end()
 
-" airline / tabline
+" ---- color scheme ----
+" silent! so the first run (before :PlugInstall) doesn't error out.
+silent! colorscheme gruvbox
+set background=dark
+
+" ---- airline / tabline ----
+let g:airline_theme = 'gruvbox'
+let g:airline_powerline_fonts = 0
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
+
+" ---- fzf ----
+nnoremap <leader>f :Files<CR>
+nnoremap <leader>b :Buffers<CR>
+nnoremap <leader>g :Rg<CR>
+nnoremap <leader>h :History<CR>
+
+" ---- gitgutter ----
+" Don't lag the editor: only refresh on save / focus / file changes.
+let g:gitgutter_eager = 0
+
+" ---- ALE ----
+" Lint on save only — feels like a normal editor, no flicker on every keystroke.
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_insert_leave = 0
+let g:ale_lint_on_enter = 1
+let g:ale_fix_on_save = 0    " set to 1 once you're comfortable with auto-fixers
+" Sensible default fixers per language; unused entries are harmless.
+let g:ale_fixers = {
+\   '*':          ['remove_trailing_lines', 'trim_whitespace'],
+\   'python':     ['ruff', 'ruff_format'],
+\   'javascript': ['prettier', 'eslint'],
+\   'typescript': ['prettier', 'eslint'],
+\}

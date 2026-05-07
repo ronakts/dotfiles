@@ -100,6 +100,45 @@ if command -v tmux >/dev/null 2>&1 && [ -x "$TPM_DIR/bin/install_plugins" ]; the
     "$TPM_DIR/bin/install_plugins" >/dev/null 2>&1 || warn "tpm install_plugins returned non-zero (run prefix+I inside tmux to retry)"
 fi
 
+# ---- starship prompt ----
+log "configuring starship"
+mkdir -p "$HOME/.config"
+link "$DOTFILES_DIR/shell/starship.toml" "$HOME/.config/starship.toml"
+
+if ! command -v starship >/dev/null 2>&1; then
+    log "installing starship"
+    # -y to skip interactive prompt; --bin-dir to a user-writable path so
+    # we don't need sudo. Falls back to /usr/local/bin for root.
+    if [ "$(id -u)" = "0" ]; then
+        curl -fsSL https://starship.rs/install.sh | sh -s -- -y >/dev/null 2>&1 \
+            || warn "starship install failed (run manually: curl -fsSL https://starship.rs/install.sh | sh)"
+    else
+        mkdir -p "$HOME/.local/bin"
+        curl -fsSL https://starship.rs/install.sh | sh -s -- -y -b "$HOME/.local/bin" >/dev/null 2>&1 \
+            || warn "starship install failed (run manually: curl -fsSL https://starship.rs/install.sh | sh)"
+    fi
+fi
+
+# Append starship init to ~/.bashrc and ~/.zshrc, gated by a marker so we
+# don't duplicate on re-runs. Per the Coder dotfiles guidance: append, never
+# overwrite — other tooling on managed environments writes here too.
+STARSHIP_MARKER="# >>> dotfiles starship init >>>"
+for rc in "$HOME/.bashrc" "$HOME/.zshrc"; do
+    [ -f "$rc" ] || continue
+    if grep -Fq "$STARSHIP_MARKER" "$rc"; then
+        continue
+    fi
+    shell="$(basename "$rc" | sed 's/^\.\(.*\)rc$/\1/')"  # bash / zsh
+    {
+        echo ""
+        echo "$STARSHIP_MARKER"
+        echo "[ -d \"\$HOME/.local/bin\" ] && case \":\$PATH:\" in *\":\$HOME/.local/bin:\"*) ;; *) PATH=\"\$HOME/.local/bin:\$PATH\";; esac"
+        echo "command -v starship >/dev/null 2>&1 && eval \"\$(starship init $shell)\""
+        echo "# <<< dotfiles starship init <<<"
+    } >> "$rc"
+    log "appended starship init to $rc"
+done
+
 if [ -d "$BACKUP_DIR" ]; then
     log "originals backed up at $BACKUP_DIR"
 fi

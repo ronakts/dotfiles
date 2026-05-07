@@ -1,0 +1,77 @@
+# Starship config — https://starship.rs/config
+#
+# Default style: directory + git branch + git status + (per-language
+# version when in a project) + (command duration if slow) + prompt char.
+# Two-line prompt so commands have full width.
+
+format = """
+$directory\
+$git_branch\
+$git_status\
+$git_state\
+$python\
+$nodejs\
+$golang\
+$rust\
+$cmd_duration\
+$line_break\
+$character"""
+
+add_newline = true
+command_timeout = 1000
+
+[character]
+success_symbol = "[➜](bold green)"
+error_symbol = "[✗](bold red)"
+
+[directory]
+truncation_length = 4
+truncate_to_repo = true
+style = "bold cyan"
+
+[git_branch]
+symbol = " "
+style = "bold purple"
+
+[git_status]
+ahead = "⇡${count}"
+diverged = "⇕⇡${ahead_count}⇣${behind_count}"
+behind = "⇣${count}"
+conflicted = "✖"
+deleted = "✘"
+modified = "!"
+renamed = "»"
+staged = "+"
+untracked = "?"
+stashed = "≡"
+style = "bold yellow"
+
+[git_state]
+style = "bold yellow"
+
+[cmd_duration]
+min_time = 2_000
+format = "[took $duration]($style) "
+style = "yellow"
+
+[python]
+symbol = " "
+
+[nodejs]
+symbol = " "
+
+[golang]
+symbol = " "
+
+[rust]
+symbol = " "
+
+# Disable noisy / per-tool segments. Re-enable individually if you want them.
+[aws]
+disabled = true
+[gcloud]
+disabled = true
+[kubernetes]
+disabled = true
+[package]
+disabled = true
