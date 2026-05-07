@@ -11,6 +11,11 @@ disabled = true
 [hostname]
 disabled = true
 
+# Use the Material git-branch glyph (U+F062C, "󰘬") instead of the tiny
+# Powerline default. Requires a Nerd Font.
+[git_branch]
+symbol = "󰘬 "
+
 # ---- language version segments ----
 # (the info is two-finger checks away when you actually need it:
 #  python --version, node --version, go version)
