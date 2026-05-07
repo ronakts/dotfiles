@@ -41,6 +41,10 @@ disabled = true
 disabled = true
 [terraform]
 disabled = true
+[docker_context]
+disabled = true
+[nix_shell]
+disabled = true
 
 # Everything else (directory, git_branch, git_status, git_state, cmd_duration,
 # character) keeps stock starship styling.
