@@ -21,13 +21,13 @@ symbol = "󰘬 "
 # together visually. ahead/behind keep the unicode arrows since they
 # also carry counts.
 [git_status]
-stashed     = ""        # was $  — stack
-staged      = ""        # was +  — plus circle
-untracked   = ""        # was ?  — question
-modified    = ""        # was !  — pencil
-deleted     = ""        # was ✘  — trash
-conflicted  = ""        # was =  — warning triangle
-renamed     = ""        # was »  — long arrow
+stashed     = ""
+staged      = ""
+untracked   = ""
+modified    = ""
+deleted     = ""
+conflicted  = ""
+renamed     = ""
 ahead       = "⇡${count}"
 behind      = "⇣${count}"
 diverged    = "⇕⇡${ahead_count}⇣${behind_count}"
