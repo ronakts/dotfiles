@@ -16,22 +16,6 @@ disabled = true
 [git_branch]
 symbol = "󰘬 "
 
-# Replace the default ASCII git-status symbols ($, +, ?, !, etc.) with
-# Nerd Font glyphs. They render as distinct icons rather than mushing
-# together visually. ahead/behind keep the unicode arrows since they
-# also carry counts.
-[git_status]
-stashed     = ""
-staged      = ""
-untracked   = ""
-modified    = ""
-deleted     = ""
-conflicted  = ""
-renamed     = ""
-ahead       = "⇡${count}"
-behind      = "⇣${count}"
-diverged    = "⇕⇡${ahead_count}⇣${behind_count}"
-
 # ---- language version segments ----
 # (the info is two-finger checks away when you actually need it:
 #  python --version, node --version, go version)
